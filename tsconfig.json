@@ -7,9 +7,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "outDir": "./dist",
+    "declaration": true, 
+    "outDir": "./dist", 
     "lib": ["ESNext", "DOM"]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "index.ts"],
+  "exclude": ["node_modules", "dist"] 
 }

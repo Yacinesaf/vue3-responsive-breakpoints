@@ -1,4 +1,4 @@
-import { reactive, onMounted, onBeforeUnmount } from "vue";
+import { reactive, onMounted, onBeforeUnmount, computed } from "vue";
 
 interface BreakpointsConfig {
   sm: number;
@@ -9,6 +9,9 @@ interface BreakpointsConfig {
 }
 
 export function useBreakpoints(config: "tailwind" | "bootstrap" | BreakpointsConfig = "tailwind", debounceDelay = 250) {
+  /**
+   * Tailwind breakpoints value taken from TailwindCSS official site
+   */
   const tailwindBreakpoints: BreakpointsConfig = {
     sm: 640,
     md: 768,
@@ -17,6 +20,9 @@ export function useBreakpoints(config: "tailwind" | "bootstrap" | BreakpointsCon
     xxl: 1536,
   };
 
+  /**
+   * Bootstrap breakpoints value taken from Bootstrap4 official site
+   */
   const bootstrapBreakpoints: BreakpointsConfig = {
     sm: 576,
     md: 768,
@@ -25,6 +31,9 @@ export function useBreakpoints(config: "tailwind" | "bootstrap" | BreakpointsCon
     xxl: 1400,
   };
 
+  /**
+   * Check which preset is used
+   */
   const breakpoints: BreakpointsConfig =
     config === "bootstrap" ? bootstrapBreakpoints : config === "tailwind" ? tailwindBreakpoints : config;
 
@@ -57,6 +66,9 @@ export function useBreakpoints(config: "tailwind" | "bootstrap" | BreakpointsCon
   };
 
   onMounted(() => {
+    /**
+     * resize event 
+     */
     window.addEventListener("resize", handleResize);
   });
 
@@ -65,26 +77,27 @@ export function useBreakpoints(config: "tailwind" | "bootstrap" | BreakpointsCon
     clearTimeout(resizeTimeout);
   });
 
+  // Use computed properties to make the breakpoints reactive
   return {
-    xs: state.width < breakpoints.sm,
-    sm: state.width >= breakpoints.sm && state.width < breakpoints.md,
-    md: state.width >= breakpoints.md && state.width < breakpoints.lg,
-    lg: state.width >= breakpoints.lg && state.width < breakpoints.xl,
-    xl: state.width >= breakpoints.xl && state.width < breakpoints.xxl,
-    xxl: state.width >= breakpoints.xxl,
+    xs: computed(() => state.width < breakpoints.sm),
+    sm: computed(() => state.width >= breakpoints.sm && state.width < breakpoints.md),
+    md: computed(() => state.width >= breakpoints.md && state.width < breakpoints.lg),
+    lg: computed(() => state.width >= breakpoints.lg && state.width < breakpoints.xl),
+    xl: computed(() => state.width >= breakpoints.xl && state.width < breakpoints.xxl),
+    xxl: computed(() => state.width >= breakpoints.xxl),
 
-    xsUp: true,
-    smUp: state.width >= breakpoints.sm,
-    mdUp: state.width >= breakpoints.md,
-    lgUp: state.width >= breakpoints.lg,
-    xlUp: state.width >= breakpoints.xl,
-    xxlUp: state.width >= breakpoints.xxl,
+    xsUp: computed(() => true),
+    smUp: computed(() => state.width >= breakpoints.sm),
+    mdUp: computed(() => state.width >= breakpoints.md),
+    lgUp: computed(() => state.width >= breakpoints.lg),
+    xlUp: computed(() => state.width >= breakpoints.xl),
+    xxlUp: computed(() => state.width >= breakpoints.xxl),
 
-    xsDown: state.width < breakpoints.sm,
-    smDown: state.width < breakpoints.md,
-    mdDown: state.width < breakpoints.lg,
-    lgDown: state.width < breakpoints.xl,
-    xlDown: state.width < breakpoints.xxl,
-    xxlDown: true,
+    xsDown: computed(() => state.width < breakpoints.sm),
+    smDown: computed(() => state.width < breakpoints.md),
+    mdDown: computed(() => state.width < breakpoints.lg),
+    lgDown: computed(() => state.width < breakpoints.xl),
+    xlDown: computed(() => state.width < breakpoints.xxl),
+    xxlDown: computed(() => true),
   };
 }
