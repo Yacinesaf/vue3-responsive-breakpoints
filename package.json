@@ -1,6 +1,6 @@
 {
   "name": "vue3-responsive-breakpoints",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
