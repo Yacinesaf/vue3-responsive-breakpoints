@@ -2,6 +2,8 @@
 
 A simple Vue 3 composable that provides reactive breakpoints for Tailwind, Bootstrap, or custom configurations. Easily determine the current viewport size and its relation to your breakpoints with auto-completion in TypeScript.
 
+## This works only with Vue 3 Composition API
+
 ### Features
 
 - Responsive breakpoints based on Tailwind or Bootstrap.
@@ -40,7 +42,7 @@ const breakpoints = useBreakpoints();
 </script>
 ```
 
-examples of usage
+### Examples of usage
 
 ```
 <script setup>
@@ -66,6 +68,42 @@ function ExampleFunction() {
 }
 
 </script>
+```
+
+#### Global availablity by using pinia store
+
+This approach is beneficial as it allows us to initialize the composable just once, minimizing the number of event listeners.
+
+```
+//Pinia file store
+import { useBreakpoints } from 'vue3-responsive-breakpoints';
+import { defineStore } from 'pinia';
+
+export const useGeneralStore = defineStore('general', () => {
+
+//Since the composable is already reactive, there's no need to store the breakpoints in a ref.
+const breakpoints = useBreakpoints();
+
+//Other store shenanigans
+
+  return {
+    breakpoints
+  };
+});
+```
+
+```
+<script setup>
+import { useGeneralStore } from 'store directory'
+
+// If the breakpoints was not assigned to a ref, DO NO USE storeToRefs
+const { breakpoints } = useGeneralStore();
+
+</script>
+
+<template>
+  <p v-if="breakpoints.sm">This is an example</p>
+</template>
 ```
 
 ### Available Breakpoint Properties

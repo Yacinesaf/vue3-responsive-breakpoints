@@ -1,6 +1,6 @@
 {
   "name": "vue3-responsive-breakpoints",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
@@ -11,6 +11,21 @@
   },
   "author": "Yacine Safsaf",
   "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "breakpoints",
+    "responsive",
+    "reactive",
+    "tailwind",
+    "bootstrap",
+    "viewport",
+    "composable",
+    "typescript",
+    "utility",
+    "responsive-design",
+    "media-queries"
+  ],
   "description": "",
   "devDependencies": {
     "typescript": "^5.6.2",
